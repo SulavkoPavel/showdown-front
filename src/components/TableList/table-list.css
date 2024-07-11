@@ -1,0 +1,7 @@
+.table-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 62px;
+    column-gap: 80px;
+}

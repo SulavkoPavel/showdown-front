@@ -1,0 +1,7 @@
+.table-stub-participant-photo {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px 10px 0 10px;
+    box-sizing: border-box;
+    border: 2px solid #F7F7F7;
+}

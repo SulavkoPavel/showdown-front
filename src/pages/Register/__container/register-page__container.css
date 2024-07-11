@@ -1,0 +1,11 @@
+.register-page__container {
+    margin-top: -70px;
+
+    gap: 48px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}

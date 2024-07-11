@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'Overpass';
+    src: local('Overpass Regular'), url(./assets/Fonts/Overpass/static/Overpass-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Overpass';
+    src: local('Overpass Medium'), url(./assets/Fonts/Overpass/static/Overpass-Medium.ttf) format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Overpass';
+    src: local('Overpass Bold'), url(./assets/Fonts/Overpass/static/Overpass-Bold.ttf) format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Overpass';
+    src: local('Overpass Italic'), url(./assets/Fonts/Overpass/static/Overpass-Italic.ttf) format('truetype');
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Overpass';
+    src: local('Overpass Bold Italic'), url(./assets/Fonts/Overpass/static/Overpass-BoldItalic.ttf) format('truetype');
+    font-weight: bold;
+    font-style: italic;
+  }
+  

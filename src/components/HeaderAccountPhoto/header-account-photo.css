@@ -1,0 +1,15 @@
+.header-account-photo {
+    cursor: pointer;
+
+    user-select: none;
+
+    transition: transform 0.3s, scale 0.3s;
+}
+
+.header-account-photo:hover {
+    transform: perspective(500px) rotateY(25deg);
+}
+
+.header-account-photo:active {
+    scale: 0.85;
+}

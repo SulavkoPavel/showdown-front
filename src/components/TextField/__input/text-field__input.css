@@ -1,0 +1,15 @@
+.text-field__input {
+    all: unset;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    color: #000;
+    font-size: 24px;
+    line-height: 150%;
+
+    transition: color 0.2s ease;
+}
+
+.text-field__input::placeholder {
+    color: #C7C7C7;
+}

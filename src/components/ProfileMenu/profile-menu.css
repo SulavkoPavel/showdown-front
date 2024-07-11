@@ -1,0 +1,16 @@
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-end;
+    row-gap: 24px;
+
+    padding: 30px 40px;
+
+    background-color: #ffffff;
+
+    border: 2px solid #F7F7F7;
+    border-radius: 20px 20px 0 20px;
+
+    transition: opacity 0.2s, transform 0.1s ease;
+}

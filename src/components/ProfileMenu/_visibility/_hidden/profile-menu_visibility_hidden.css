@@ -1,0 +1,5 @@
+.profile-menu_visibility_hidden {
+    opacity: 0;
+    transform: perspective(500px) rotateY(70deg);
+    pointer-events: none;
+}

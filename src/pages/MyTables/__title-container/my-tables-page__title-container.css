@@ -1,0 +1,7 @@
+.my-tables-page__title-container {
+    margin-top: 35px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

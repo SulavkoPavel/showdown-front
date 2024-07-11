@@ -1,0 +1,9 @@
+.text-field__label {
+    display: block;
+    cursor: text;
+    color: #464646;
+    font-size: 17px;
+    line-height: 150%;
+
+    user-select: none;
+}
