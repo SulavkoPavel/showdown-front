@@ -17,7 +17,6 @@ const TableSettingsPage = () => {
     const [table, setTable] = useState<TableView>();
 
     useEffect(() => {
-        console.log(tableId);
         getTable(tableId).then(table => {
             setTable(table);
             setTableName(table.name)

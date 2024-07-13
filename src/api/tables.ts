@@ -3,6 +3,7 @@ import api from './api.ts';
 export interface TableView {
     id: string;
     name: string;
+    votingSystem: number[];
     owner: User;
     participants: User[];
 }

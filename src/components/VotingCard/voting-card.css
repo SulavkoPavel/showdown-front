@@ -1,0 +1,31 @@
+.voting-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    border-radius: 25px;
+    box-sizing: border-box;
+
+    width: 85px;
+    height: 120px;
+
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 120%;
+
+    user-select: none;
+
+    transition: transform 0.3s, scale 0.3s, background-color 0.15s, color 0.15s ease;
+}
+
+
+.voting-card:hover {
+    transform: perspective(500px) rotateY(30deg);
+}
+
+.voting-card:active {
+    scale: 0.97;
+    transform: perspective(500px) rotateY(40deg);
+}

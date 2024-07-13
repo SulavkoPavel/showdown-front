@@ -1,0 +1,5 @@
+.game-page__new-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

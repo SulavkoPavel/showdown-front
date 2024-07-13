@@ -1,0 +1,11 @@
+.game-table {
+    border: 2px solid #F7F7F7;
+    width: 460px;
+    height: 210px;
+
+    border-radius: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

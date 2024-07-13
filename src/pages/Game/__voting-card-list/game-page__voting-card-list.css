@@ -1,0 +1,10 @@
+.game-page__voting-card-list {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+    flex-grow: 1;
+    align-items: flex-end;
+    margin-bottom: 25px;
+
+    justify-content: center;
+}
