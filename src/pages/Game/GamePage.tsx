@@ -9,7 +9,7 @@ import {
     connectToWs, newGame,
     createVote,
     deleteVote,
-    showdown
+    showdown, addOnVoteHandler
 } from "../../api/game.ts";
 import GameTable from "../../components/GameTable/GameTable.tsx";
 import Button from "../../components/Button/Button.tsx";
@@ -26,21 +26,31 @@ import Title from "../../components/Title/Title.tsx";
 const GamePage = () => {
     const {tableId} = useParams<{ tableId: string }>();
     const [table, setTable] = useState<TableView>();
-    const [isGameActive, setIsGameActive] = useState(true);
+    const [isShowdown, setIsShowdown] = useState(false);
     const [votingResults, setVotingResults] = useState();
+    const [votedUserIds, setVotedUserIds] = useState<number[]>([]);
 
     useEffect(() => {
         getTable(tableId).then(table => {
             setTable(table);
-            setIsGameActive(!table.games[0].showdown);
+            setIsShowdown(table.games[0].showdown);
             table.players.sort((a, b) => a.id - b.id);
             connectToWs();
             addOnNewGameHandler(payload => {
-                setIsGameActive(true);
+                setIsShowdown(false);
+                setVotedUserIds([]);
             });
             addOnVotingResultsHandler(payload => {
-                setIsGameActive(false);
+                setIsShowdown(true);
                 setVotingResults(JSON.parse(payload.body));
+            });
+            addOnVoteHandler(payload => {
+                const voteView = JSON.parse(payload.body);
+                if (voteView.voted) {
+                    setVotedUserIds(prevVotedUserIds => [voteView.userId, ...prevVotedUserIds])
+                } else {
+                    setVotedUserIds(prevVotedUserIds => prevVotedUserIds.filter(votedUserId => votedUserId !== voteView.userId));
+                }
             });
         });
     }, []);
@@ -56,9 +66,23 @@ const GamePage = () => {
                 <PlayerCardList
                     className='game-page__top-player-list'
                     players={table?.players.sort().slice(0, 3)}
+                    votedUserIds={votedUserIds}
+                    isCardsRevealed={isShowdown}
+                    votingResults={votingResults}
                 />
 
-                {isGameActive ?
+                {isShowdown ?
+                    <GameTable>
+                        <div className='game-page__new-game-container'>
+                            <Title text={votingResults ? votingResults.averageRating : table?.games[0].averageRating}/>
+                            <Button
+                                text='Новая игра'
+                                styleType='secondary'
+                                onClick={() => newGame(tableId)}
+                            />
+                        </div>
+                    </GameTable>
+                    :
                     <GameTable>
                         <Button
                             text='Раскрыть карты'
@@ -67,23 +91,15 @@ const GamePage = () => {
                             onClick={() => showdown(tableId)}
                         />
                     </GameTable>
-                    :
-                    <GameTable>
-                        <div className='game-page__new-game-container'>
-                            <Title text={votingResults ? votingResults.averageRating : table?.games[0].averageRating} />
-                            <Button
-                                text='Новая игра'
-                                styleType='secondary'
-                                onClick={() => newGame(tableId)}
-                            />
-                        </div>
-                    </GameTable>
                 }
 
                 <PlayerCardList
                     className='game-page__bottom-player-list'
                     players={table?.players.sort().slice(3, 6)}
+                    votedUserIds={votedUserIds}
                     isUserPhotoAtBottom={true}
+                    isCardsRevealed={isShowdown}
+                    votingResults={votingResults}
                 />
             </div>
 

@@ -20,12 +20,12 @@ interface CreateVote {
     rating: string;
 }
 
-interface VotingResult {
+export interface VotingResult {
     userId: number;
     rating: number;
 }
 
-interface VotingResults {
+export interface VotingResults {
     votingResults: VotingResult[];
     averageRating: number;
 }

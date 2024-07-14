@@ -1,0 +1,5 @@
+.player-card_state_revealed {
+    border: 2px solid #9CACFF;
+    color: #4B68FF;
+    transform: perspective(500px) rotateY(360deg);
+}
