@@ -1,0 +1,3 @@
+.player-card-container_reversed {
+    flex-direction: column-reverse;
+}

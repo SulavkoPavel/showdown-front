@@ -5,7 +5,7 @@ import {getTable, TableView} from "../../api/tables.ts";
 import VotingCardList from "../../components/VotingCardList/VotingCardList.tsx";
 import {
     addOnNewGameHandler,
-    addOnShowdownHandler,
+    addOnVotingResultsHandler,
     connectToWs, newGame,
     createVote,
     deleteVote,
@@ -13,13 +13,13 @@ import {
 } from "../../api/game.ts";
 import GameTable from "../../components/GameTable/GameTable.tsx";
 import Button from "../../components/Button/Button.tsx";
-import ParticipantCardList from "../../components/ParticipantCardList/ParticipantCardList.tsx";
+import PlayerCardList from "../../components/PlayerCardList/PlayerCardList.tsx";
 
 import './game-page.css'
 import './__new-game-container/game-page__new-game-container.css'
 import './__voting-card-list/game-page__voting-card-list.css'
-import './__top-participant-list/game-page__top-participant-list.css'
-import './__bottom-participant-list/game-page__bottom-participant-list.css'
+import './__top-player-list/game-page__top-player-list.css'
+import './__bottom-player-list/game-page__bottom-player-list.css'
 import './__playground/game-page__playground.css'
 import Title from "../../components/Title/Title.tsx";
 
@@ -32,12 +32,13 @@ const GamePage = () => {
     useEffect(() => {
         getTable(tableId).then(table => {
             setTable(table);
-            table.participants.sort((a, b) => a.id - b.id);
+            setIsGameActive(!table.games[0].showdown);
+            table.players.sort((a, b) => a.id - b.id);
             connectToWs();
             addOnNewGameHandler(payload => {
                 setIsGameActive(true);
             });
-            addOnShowdownHandler(payload => {
+            addOnVotingResultsHandler(payload => {
                 setIsGameActive(false);
                 setVotingResults(JSON.parse(payload.body));
             });
@@ -52,9 +53,9 @@ const GamePage = () => {
 
             <div
                 className='game-page__playground'>
-                <ParticipantCardList
-                    className='game-page__top-participant-list'
-                    participants={table?.participants.sort().slice(0, 3)}
+                <PlayerCardList
+                    className='game-page__top-player-list'
+                    players={table?.players.sort().slice(0, 3)}
                 />
 
                 {isGameActive ?
@@ -69,7 +70,7 @@ const GamePage = () => {
                     :
                     <GameTable>
                         <div className='game-page__new-game-container'>
-                            <Title text={votingResults.averageRating} />
+                            <Title text={votingResults ? votingResults.averageRating : table?.games[0].averageRating} />
                             <Button
                                 text='Новая игра'
                                 styleType='secondary'
@@ -79,9 +80,9 @@ const GamePage = () => {
                     </GameTable>
                 }
 
-                <ParticipantCardList
-                    className='game-page__bottom-participant-list'
-                    participants={table?.participants.sort().slice(3, 6)}
+                <PlayerCardList
+                    className='game-page__bottom-player-list'
+                    players={table?.players.sort().slice(3, 6)}
                     isUserPhotoAtBottom={true}
                 />
             </div>

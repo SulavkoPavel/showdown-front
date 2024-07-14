@@ -4,16 +4,25 @@ import {Client, IMessage, StompConfig, StompSubscription} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import {getAccessTokenFromLocalStorage} from "./auth.ts";
 import {messageCallbackType} from "@stomp/stompjs/src/types.ts";
+import {TableView} from "./tables.ts";
 
 let stompClient: Client;
 
+export interface GameView {
+    id: number;
+    table: TableView;
+    averageRating: number;
+    showdown: boolean;
+}
+
+
 interface CreateVote {
-    voteValue: string;
+    rating: string;
 }
 
 interface VotingResult {
     userId: number;
-    vote: number;
+    rating: number;
 }
 
 interface VotingResults {
@@ -23,7 +32,7 @@ interface VotingResults {
 
 const onVoteHandlers = [];
 const onGameHandlers = [];
-const onShowdownHandlers = [];
+const onVotingResultsHandlers = [];
 
 
 export function connectToWs() {
@@ -41,9 +50,9 @@ export function connectToWs() {
                 console.log(payload);
                 onGameHandlers.forEach(handler => handler(payload));
             });
-            stompClient.subscribe("/user/queue/showdown", (payload) => {
+            stompClient.subscribe("/user/queue/voting-results", (payload) => {
                 console.log(payload);
-                onShowdownHandlers.forEach(handler => handler(payload));
+                onVotingResultsHandlers.forEach(handler => handler(payload));
             });
         },
         debug: (log: string) => {
@@ -56,12 +65,12 @@ export function connectToWs() {
     stompClient.activate();
 }
 
-export function createVote(tableId: number, voteValue: number) {
-    stompClient.publish({destination: `/app/table-votes/${tableId}/create`, body: JSON.stringify({voteValue: voteValue}) });
+export function createVote(tableId: number, rating: number) {
+    stompClient.publish({destination: `/app/table-votes/${tableId}/create`, body: JSON.stringify({rating: rating}) });
 }
 
-export function deleteVote(tableId: number, voteValue: number) {
-    stompClient.publish({destination: `/app/table-votes/${tableId}/delete`, body: JSON.stringify({voteValue: voteValue}) });
+export function deleteVote(tableId: number, rating: number) {
+    stompClient.publish({destination: `/app/table-votes/${tableId}/delete`, body: JSON.stringify({rating: rating}) });
 }
 
 export function addOnVoteHandler(handler: (payload: IMessage) => void) {
@@ -80,6 +89,6 @@ export function showdown(tableId: number) {
     stompClient.publish({destination: `/app/tables/${tableId}/showdown`});
 }
 
-export function addOnShowdownHandler(handler: (payload: IMessage) => void) {
-    onShowdownHandlers.push(handler);
+export function addOnVotingResultsHandler(handler: (payload: IMessage) => void) {
+    onVotingResultsHandlers.push(handler);
 }

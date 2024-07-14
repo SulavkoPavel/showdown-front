@@ -1,15 +1,15 @@
-import './table-participant-photo-list.css'
+import './table-player-photo-list.css'
 import stubTableAccountPhoto from '../../assets/Images/stub-table-account-photo.png'
 import React from 'react';
-import TableStubParticipantPhoto from '../TableStubParticipantPhoto/TableStubParticipantPhoto.tsx';
+import TableStubPlayerPhoto from '../TableStubPlayerPhoto/TableStubPlayerPhoto.tsx';
 
 interface Props {
     users: User[];
 }
 
-const TableParticipantPhotoList = ({users}: Props) => {
+const TablePlayerPhotoList = ({users}: Props) => {
     return (
-        <div className='table-participant-photo-list'>
+        <div className='table-player-photo-list'>
             {users.slice(0, 5).map(user =>
                     <img
                         src={stubTableAccountPhoto}
@@ -17,9 +17,9 @@ const TableParticipantPhotoList = ({users}: Props) => {
                     />
                 )
             }
-            {Array.from({ length: 5 - users.length }, () => <TableStubParticipantPhoto />)}
+            {Array.from({ length: 5 - users.length }, () => <TableStubPlayerPhoto />)}
         </div>
     )
 }
 
-export default TableParticipantPhotoList
+export default TablePlayerPhotoList

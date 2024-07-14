@@ -1,11 +1,13 @@
 import api from './api.ts';
+import {GameView} from "./game.ts";
 
 export interface TableView {
     id: string;
     name: string;
     votingSystem: number[];
     owner: User;
-    participants: User[];
+    players: User[];
+    games: GameView[];
 }
 
 export interface TableCreate {

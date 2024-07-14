@@ -1,4 +1,4 @@
-.participant-card_state_voted {
+.player-card_state_voted {
     background-color: #D1D8FF;
     color: transparent;
     transform: perspective(500px) rotateY(180deg);

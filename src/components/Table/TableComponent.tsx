@@ -1,7 +1,7 @@
 import './table.css'
 import React, {useState} from 'react';
 import {TableView} from '../../api/tables.ts';
-import TableParticipantPhotoList from '../TableAccountPhotoList/TableParticipantPhotoList.tsx';
+import TablePlayerPhotoList from '../TableAccountPhotoList/TablePlayerPhotoList.tsx';
 import TableName from '../TableName/TableName.tsx';
 import Button from '../Button/Button.tsx';
 import './__menu-buttons/table__menu-buttons.css';
@@ -36,7 +36,7 @@ const TableComponent = ({table}: Props) => {
             </div>
             <div>
                 <div className='table__inner-container'>
-                    <TableParticipantPhotoList users={table.participants}/>
+                    <TablePlayerPhotoList users={table.players}/>
                     <TableName name={table.name}/>
                 </div>
             </div>

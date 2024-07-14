@@ -1,17 +1,17 @@
-import './participant-card-list.css'
+import './player-card-list.css'
 import React, {useEffect, useState} from 'react';
-import ParticipantCard from "../ParticipantCard/ParticipantCard.tsx";
+import PlayerCard from "../PlayerCard/PlayerCard.tsx";
 import {getTable} from "../../api/tables.ts";
 import {addOnNewGameHandler, addOnVoteHandler, connectToWs} from "../../api/game.ts";
 
 interface Props {
-    participants?: User[];
+    players?: User[];
     isUserPhotoAtBottom?: boolean;
     className?: string;
 }
 
-const ParticipantCardList = ({
-                                 participants,
+const PlayerCardList = ({
+                                 players,
                                  isUserPhotoAtBottom = false,
                                  className
                              }: Props) => {
@@ -32,11 +32,11 @@ const ParticipantCardList = ({
     }, []);
 
     return (
-        <div className={`participant-card-list ${className}`}>
-            {participants?.map(participant =>
-                <ParticipantCard
-                    text={participant.username}
-                    stateStyle={votedUserIds.includes(participant.id) ? 'voted' : 'unvoted'}
+        <div className={`player-card-list ${className}`}>
+            {players?.map(player =>
+                <PlayerCard
+                    text={player.username}
+                    stateStyle={votedUserIds.includes(player.id) ? 'voted' : 'unvoted'}
                     isUserPhotoAtBottom={isUserPhotoAtBottom}
                 />
             )}
@@ -44,4 +44,4 @@ const ParticipantCardList = ({
     )
 }
 
-export default ParticipantCardList
+export default PlayerCardList
