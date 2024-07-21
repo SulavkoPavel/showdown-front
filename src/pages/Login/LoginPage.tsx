@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './login-page.css'
 import './__form/login-page__form.css'
 import './__container/login-page__container.css'
@@ -16,7 +16,17 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
     const [textFieldStatus, setTextFieldStatus] = useState<TextFieldProps['styleStatus']>('default');
+
+    useEffect(() => {
+        if (username && password) {
+            setLoginButtonDisabled(false);
+        } else {
+            setLoginButtonDisabled(true);
+        }
+    }, [username, password]);
+
 
     return (
         <div className="login-page">
@@ -43,10 +53,15 @@ const LoginPage = () => {
                     />
                     <Button
                         text="Войти"
+                        styleType={loginButtonDisabled ? 'primary-disabled' : 'primary'}
+                        disabled={loginButtonDisabled}
                         onClick={
                         () => login(username, password)
                             .then(() => navigate('/my-tables'))
-                            .catch(() => setTextFieldStatus('error'))
+                            .catch(() => {
+                                setTextFieldStatus('error');
+                                setLoginButtonDisabled(true);
+                            })
                     }
                     />
                     <Button

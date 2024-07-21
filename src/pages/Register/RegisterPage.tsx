@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './register-page.css'
 import './__form/register-page__form.css'
 import './__container/register-page__container.css'
@@ -16,7 +16,17 @@ const RegisterPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [registerButtonDisabled, setRegisterButtonDisabled] = useState(true);
     const [textFieldStatus, setTextFieldStatus] = useState<TextFieldProps['styleStatus']>('default');
+
+    useEffect(() => {
+        if (username && password) {
+            setRegisterButtonDisabled(false);
+        } else {
+            setRegisterButtonDisabled(true);
+        }
+    }, [username, password]);
+
 
     return (
         <div className="register-page">
@@ -43,11 +53,16 @@ const RegisterPage = () => {
                     />
                     <Button
                         text="Создать аккаунт"
+                        disabled={registerButtonDisabled}
+                        styleType={registerButtonDisabled ? 'primary-disabled' : 'primary'}
                         onClick={
                             () => register(username, password)
                                 .then(() => login(username, password)
                                     .then(() => navigate('/my-tables')))
-                                .catch(() => setTextFieldStatus('error'))
+                                .catch(() => {
+                                    setTextFieldStatus('error');
+                                    setRegisterButtonDisabled(true);
+                                })
                         }
                     />
                     <Button

@@ -1,3 +1,5 @@
 .common-header__game-name {
-
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
