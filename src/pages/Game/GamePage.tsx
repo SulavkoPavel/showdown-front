@@ -9,7 +9,7 @@ import {
     connectToWs, newGame,
     createVote,
     deleteVote,
-    showdown, addOnVoteHandler
+    showdown, addOnVoteHandler, activeAtTable, addOnPlayerActivityHandler
 } from "../../api/game.ts";
 import GameTable from "../../components/GameTable/GameTable.tsx";
 import Button from "../../components/Button/Button.tsx";
@@ -26,6 +26,7 @@ import Title from "../../components/Title/Title.tsx";
 const GamePage = () => {
     const {tableId} = useParams<{ tableId: string }>();
     const [table, setTable] = useState<TableView>();
+    const [activePlayers, setActivePlayers] = useState<User[]>([]);
     const [isShowdown, setIsShowdown] = useState(false);
     const [votingResults, setVotingResults] = useState();
     const [votedUserIds, setVotedUserIds] = useState<number[]>([]);
@@ -33,9 +34,10 @@ const GamePage = () => {
     useEffect(() => {
         getTable(tableId).then(table => {
             setTable(table);
+            setActivePlayers(table.activePlayers)
             setIsShowdown(table.games[0].showdown);
             table.players.sort((a, b) => a.id - b.id);
-            connectToWs();
+            connectToWs(tableId);
             addOnNewGameHandler(payload => {
                 setIsShowdown(false);
                 setVotedUserIds([]);
@@ -52,6 +54,21 @@ const GamePage = () => {
                     setVotedUserIds(prevVotedUserIds => prevVotedUserIds.filter(votedUserId => votedUserId !== voteView.userId));
                 }
             });
+            addOnPlayerActivityHandler(payload => {
+                const playerActivity = JSON.parse(payload.body);
+                const user = playerActivity.user as User;
+
+                setActivePlayers(prevActivePlayers => {
+                    if (playerActivity.isActive) {
+                        if (!prevActivePlayers.some(activePlayer => activePlayer.id === user.id)) {
+                            return [user, ...prevActivePlayers];
+                        }
+                    } else {
+                        return prevActivePlayers.filter(activePlayer => activePlayer.id !== user.id);
+                    }
+                    return prevActivePlayers;
+                });
+            })
         });
     }, []);
 
@@ -65,7 +82,7 @@ const GamePage = () => {
                 className='game-page__playground'>
                 <PlayerCardList
                     className='game-page__top-player-list'
-                    players={table?.players.sort().slice(0, 3)}
+                    players={activePlayers?.sort().slice(0, 3)}
                     votedUserIds={votedUserIds}
                     isCardsRevealed={isShowdown}
                     votingResults={votingResults}
@@ -95,7 +112,7 @@ const GamePage = () => {
 
                 <PlayerCardList
                     className='game-page__bottom-player-list'
-                    players={table?.players.sort().slice(3, 6)}
+                    players={activePlayers?.sort().slice(3, 6)}
                     votedUserIds={votedUserIds}
                     isUserPhotoAtBottom={true}
                     isCardsRevealed={isShowdown}

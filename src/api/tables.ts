@@ -7,6 +7,7 @@ export interface TableView {
     votingSystem: number[];
     owner: User;
     players: User[];
+    activePlayers: User[];
     games: GameView[];
 }
 

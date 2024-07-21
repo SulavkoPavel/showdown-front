@@ -8,7 +8,7 @@ import HeaderAccountPhoto from "../HeaderAccountPhoto/HeaderAccountPhoto.tsx";
 
 interface Props {
     text: string;
-    stateStyle?: 'voted' | 'unvoted' | 'revealed'
+    stateStyle?: 'voted' | 'unvoted' | 'revealed';
     isUserPhotoAtBottom?: boolean;
     className?: string;
 }
