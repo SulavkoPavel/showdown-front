@@ -8,6 +8,9 @@ export const API_AUTH_REFRESH = '/api/auth/refresh';
 export const API_AUTH_LOGIN = '/api/auth/login';
 export const API_AUTH_REGISTER = '/api/auth/register';
 export const API_AUTH_REVOKE_REFRESH_TOKEN = '/api/auth/revoke-refresh-token';
+export const API_AUTH_CONFIRM_EMAIL = '/api/auth/confirm-email';
+export const API_AUTH_USER_WITH_EMAIL_EXISTS = '/api/auth/user-with-email-exists';
+export const API_AUTH_USER_WITH_NICKNAME_EXISTS = '/api/auth/user-with-nickname-exists';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token';
 export const LOCAL_STORAGE_REFRESH_TOKEN_KEY = 'refresh_token';
@@ -24,14 +27,14 @@ interface TokenResponse {
     refreshToken: RefreshToken;
 }
 
-export async function login(username: string, password: string): Promise<TokenResponse> {
-    const response: AxiosResponse<TokenResponse> = await authApi.post(API_AUTH_LOGIN, {username, password});
+export async function login(email: string, password: string): Promise<TokenResponse> {
+    const response: AxiosResponse<TokenResponse> = await authApi.post(API_AUTH_LOGIN, {email, password});
     storeAccessAndRefreshTokens(response.data.accessToken, response.data.refreshToken.refreshToken);
     return response.data;
 }
 
-export async function register(username: string, password: string): Promise<TokenResponse> {
-    const response: AxiosResponse<TokenResponse> = await authApi.post(API_AUTH_REGISTER, {username, password});
+export async function register(nickname: string, email: string, password: string): Promise<TokenResponse> {
+    const response: AxiosResponse<TokenResponse> = await authApi.post(API_AUTH_REGISTER, {nickname, email, password});
     return response.data;
 }
 
@@ -51,6 +54,20 @@ export async function logout(): Promise<TokenResponse> {
         await authApi.post(API_AUTH_REVOKE_REFRESH_TOKEN, {refreshToken: getRefreshTokenFromLocalStorage()});
     removeAccessAndRefreshTokens();
     navigateToLoginUrl();
+    return response.data;
+}
+
+export async function confirmEmail(token: string): Promise<void> {
+    return await authApi.post(`${API_AUTH_CONFIRM_EMAIL}?token=${token}`);
+}
+
+export async function userWithEmailExists(email: string): Promise<{ exists: boolean }> {
+    const response = await authApi.post(`${API_AUTH_USER_WITH_EMAIL_EXISTS}?email=${email}`);
+    return response.data;
+}
+
+export async function userWithNicknameExists(nickname: string): Promise<{ exists: boolean }> {
+    const response = await authApi.post(`${API_AUTH_USER_WITH_NICKNAME_EXISTS}?nickname=${nickname}`);
     return response.data;
 }
 

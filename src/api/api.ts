@@ -59,6 +59,10 @@ api.interceptors.response.use(
                 resumeSuspendedRequestsDuringTokenRefresh(tokenResponse.data.accessToken);
             });
             return api(originalRequest);
+        } else if (error.response.status === HttpStatusCode.Forbidden) {
+            if (error.response.data.error === 'Email not confirmed') {
+                window.location.href = '/confirm-email-info';
+            }
         } else {
             return Promise.reject(error);
         }

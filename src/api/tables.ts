@@ -1,5 +1,6 @@
 import api from './api.ts';
 import {GameView} from "./game.ts";
+import {User} from "./users.ts";
 
 export interface TableView {
     id: string;

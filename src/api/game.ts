@@ -1,9 +1,6 @@
-import api from './api.ts';
-
-import {Client, IMessage, StompConfig, StompSubscription} from '@stomp/stompjs';
+import {Client, IMessage, StompConfig} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import {getAccessTokenFromLocalStorage} from "./auth.ts";
-import {messageCallbackType} from "@stomp/stompjs/src/types.ts";
 import {TableView} from "./tables.ts";
 
 let stompClient: Client;

@@ -10,6 +10,7 @@ import Title from "../../components/Title/Title.tsx";
 import HeaderWithLogo from "../../components/HeaderWithLogo/HeaderWithLogo.tsx";
 import {useNavigate} from "react-router-dom";
 import {login} from "../../api/auth.ts";
+import LoadingPage from "../LoadingPage/LoadingPage.tsx";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
     const [textFieldStatus, setTextFieldStatus] = useState<TextFieldProps['styleStatus']>('default');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (username && password) {
@@ -29,50 +31,56 @@ const LoginPage = () => {
 
 
     return (
-        <div className="login-page">
-            <HeaderWithLogo/>
-            <div className="login-page__container">
-                <Title text="Вход"/>
-                <div className="register-page__form">
-                    <TextField
-                        className="login-page__text-field"
-                        value={username}
-                        onValueChange={setUsername}
-                        placeholder='Roman'
-                        styleStatus={textFieldStatus}
-                        label="Username"
-                    />
-                    <TextField
-                        className="login-page__text-field"
-                        value={password}
-                        onValueChange={setPassword}
-                        label="Password"
-                        placeholder="••••••••••••"
-                        styleStatus={textFieldStatus}
-                        inputType="password"
-                    />
-                    <Button
-                        text="Войти"
-                        styleType={loginButtonDisabled ? 'primary-disabled' : 'primary'}
-                        disabled={loginButtonDisabled}
-                        onClick={
-                        () => login(username, password)
-                            .then(() => navigate('/my-tables'))
-                            .catch(() => {
-                                setTextFieldStatus('error');
-                                setLoginButtonDisabled(true);
-                            })
-                    }
-                    />
-                    <Button
-                        className="login-page__secondary-button"
-                        text="Создать аккаунт"
-                        styleType="secondary"
-                        onClick={() => navigate("/register")}
-                    />
+        <LoadingPage isLoading={isLoading}>
+            <div className="login-page">
+                <HeaderWithLogo/>
+                <div className="login-page__container">
+                    <Title text="Вход"/>
+                    <div className="register-page__form">
+                        <TextField
+                            className="login-page__text-field"
+                            value={username}
+                            onValueChange={setUsername}
+                            placeholder='Roman'
+                            styleStatus={textFieldStatus}
+                            label="Email"
+                        />
+                        <TextField
+                            className="login-page__text-field"
+                            value={password}
+                            onValueChange={setPassword}
+                            label="Password"
+                            placeholder="••••••••••••"
+                            styleStatus={textFieldStatus}
+                            inputType="password"
+                        />
+                        <Button
+                            text="Войти"
+                            styleType={loginButtonDisabled ? 'primary-disabled' : 'primary'}
+                            disabled={loginButtonDisabled}
+                            onClick={
+                            () => {
+                                setIsLoading(true);
+                                login(username, password)
+                                    .then(() => navigate('/my-tables'))
+                                    .catch(() => {
+                                        setTextFieldStatus('error');
+                                        setLoginButtonDisabled(true);
+                                    })
+                                    .finally(() => setIsLoading(false))
+                            }
+                        }
+                        />
+                        <Button
+                            className="login-page__secondary-button"
+                            text="Создать аккаунт"
+                            styleType="secondary"
+                            onClick={() => navigate("/register")}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+        </LoadingPage>
     )
 }
 
