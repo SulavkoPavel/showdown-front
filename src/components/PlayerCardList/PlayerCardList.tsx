@@ -29,6 +29,7 @@ const PlayerCardList = ({
                 return (
                     <PlayerCard
                         text={votingResult?.rating}
+                        nickname={player.nickname}
                         stateStyle={isCardsRevealed ? 'revealed' : (votedUserIds?.includes(player.id) ? 'voted' : 'unvoted')}
                         isUserPhotoAtBottom={isUserPhotoAtBottom}
                     />

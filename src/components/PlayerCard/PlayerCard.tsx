@@ -8,6 +8,7 @@ import HeaderAccountPhoto from "../HeaderAccountPhoto/HeaderAccountPhoto.tsx";
 
 interface Props {
     text: string;
+    nickname: string;
     stateStyle?: 'voted' | 'unvoted' | 'revealed';
     isUserPhotoAtBottom?: boolean;
     className?: string;
@@ -15,6 +16,7 @@ interface Props {
 
 const PlayerCard = ({
                              text,
+                             nickname = '',
                              stateStyle = 'unvoted',
                              isUserPhotoAtBottom = false,
                              className = ''
@@ -27,6 +29,9 @@ const PlayerCard = ({
 
     return (
         <div className={`player-card-container ${isUserPhotoAtBottom && 'player-card-container_reversed'}`}>
+            <div className='small-text'>
+                {nickname}
+            </div>
             <HeaderAccountPhoto/>
             <div className={`player-card ${stateClassName.get(stateStyle)} ${className}`}>
                 {text}

@@ -4,7 +4,9 @@
     column-gap: 15px;
     flex-grow: 1;
     align-items: flex-end;
+    margin-top: 80px;
     margin-bottom: 25px;
 
     justify-content: center;
+
 }

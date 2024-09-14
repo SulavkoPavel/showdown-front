@@ -1,5 +1,6 @@
 import React from 'react'
 import './loading-page.css'
+import './__content/loading-page__content.css'
 import LoadingCard from "../../components/LoadingCard/LoadingCard.tsx";
 
 interface Props {
