@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import PlayerCard from "../PlayerCard/PlayerCard.tsx";
 import {getTable} from "../../api/tables.ts";
 import {addOnNewGameHandler, addOnVoteHandler, connectToWs, VotingResults} from "../../api/game.ts";
+import {User} from "../../api/users.ts";
 
 interface Props {
     players?: User[];
@@ -29,7 +30,7 @@ const PlayerCardList = ({
                 return (
                     <PlayerCard
                         text={votingResult?.rating}
-                        nickname={player.nickname}
+                        player={player}
                         stateStyle={isCardsRevealed ? 'revealed' : (votedUserIds?.includes(player.id) ? 'voted' : 'unvoted')}
                         isUserPhotoAtBottom={isUserPhotoAtBottom}
                     />

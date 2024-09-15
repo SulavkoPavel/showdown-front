@@ -4,11 +4,13 @@ import './player-card-container_reversed.css'
 import './_state/_voted/player-card_state_voted.css'
 import './_state/_unvoted/player-card_state_unvoted.css'
 import './_state/_revealed/player-card_state_revealed.css'
-import HeaderAccountPhoto from "../HeaderAccountPhoto/HeaderAccountPhoto.tsx";
+import HeaderProfilePhoto from "../HeaderProfilePhoto/HeaderProfilePhoto.tsx";
+import PlayerCardProfilePhoto from "../PlayerCardProfilePhoto/PlayerCardProfilePhoto.tsx";
+import {User} from "../../api/users.ts";
 
 interface Props {
     text: string;
-    nickname: string;
+    player: User;
     stateStyle?: 'voted' | 'unvoted' | 'revealed';
     isUserPhotoAtBottom?: boolean;
     className?: string;
@@ -16,7 +18,7 @@ interface Props {
 
 const PlayerCard = ({
                              text,
-                             nickname = '',
+                             player,
                              stateStyle = 'unvoted',
                              isUserPhotoAtBottom = false,
                              className = ''
@@ -30,9 +32,11 @@ const PlayerCard = ({
     return (
         <div className={`player-card-container ${isUserPhotoAtBottom && 'player-card-container_reversed'}`}>
             <div className='small-text'>
-                {nickname}
+                {player.nickname}
             </div>
-            <HeaderAccountPhoto/>
+            <PlayerCardProfilePhoto
+                userId={player.id}
+            />
             <div className={`player-card ${stateClassName.get(stateStyle)} ${className}`}>
                 {text}
             </div>

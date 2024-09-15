@@ -1,0 +1,8 @@
+.table-player-profile-photo {
+    user-select: none;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 10px 10px 0 10px;
+}

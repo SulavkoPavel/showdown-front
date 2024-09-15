@@ -1,7 +1,7 @@
 import './profile-menu.css'
 import './_visibility/_visable/profile-menu_visibility_visible.css'
 import './_visibility/_hidden/profile-menu_visibility_hidden.css'
-import '../HeaderAccountPhoto/header-account-photo.css'
+import '../HeaderProfilePhoto/header-profile-photo.css'
 import Button from "../Button/Button.tsx";
 import {useState} from "react";
 import {logout} from "../../api/auth.ts";

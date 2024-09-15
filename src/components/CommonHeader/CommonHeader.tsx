@@ -5,7 +5,7 @@ import './__profile-menu/common-header__profile-menu.css'
 import '../../main-container.css'
 import TextLogo from '../TextLogo/TextLogo.tsx';
 import React, {useState} from 'react';
-import HeaderAccountPhoto from "../HeaderAccountPhoto/HeaderAccountPhoto.tsx";
+import HeaderProfilePhoto from "../HeaderProfilePhoto/HeaderProfilePhoto.tsx";
 import ProfileMenu from "../ProfileMenu/ProfileMenu.tsx";
 
 interface Props {
@@ -21,7 +21,7 @@ const CommonHeader = ({gameName}: Props) => {
             <div className='small-text common-header__game-name'>
                 {gameName}
             </div>
-            <HeaderAccountPhoto
+            <HeaderProfilePhoto
                 onClick={() => setProfileMenuVisible(!isProfileMenuVisible)}
             />
             <ProfileMenu
