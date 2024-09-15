@@ -1,7 +1,8 @@
 import './game-table.css'
+import {ReactNode} from "react";
 
 interface Props {
-    children?: string;
+    children?: ReactNode;
     className?: string;
 }
 

@@ -102,21 +102,29 @@ const GamePage = () => {
                                 <GameTable>
                                     <div className='game-page__new-game-container'>
                                         <Title text={votingResults ? votingResults.averageRating : table?.games[0].averageRating}/>
-                                        <Button
-                                            text='Новая игра'
-                                            styleType='secondary'
-                                            onClick={() => newGame(tableId)}
-                                        />
+                                        {table?.isCurrentUserOwner ?
+                                            <Button
+                                                text='Новая игра'
+                                                styleType='secondary'
+                                                onClick={() => newGame(tableId)}
+                                            />
+                                            :
+                                            null
+                                        }
                                     </div>
                                 </GameTable>
                                 :
                                 <GameTable>
-                                    <Button
-                                        text='Раскрыть карты'
-                                        styleType='secondary'
-                                        className='game-table__reveal'
-                                        onClick={() => showdown(tableId)}
-                                    />
+                                    {table?.isCurrentUserOwner ?
+                                        <Button
+                                            text='Раскрыть карты'
+                                            styleType='secondary'
+                                            className='game-table__reveal'
+                                            onClick={() => showdown(tableId)}
+                                        />
+                                        :
+                                        null
+                                    }
                                 </GameTable>
                             }
 
