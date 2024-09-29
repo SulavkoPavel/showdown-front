@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import CommonHeader from "../../components/CommonHeader/CommonHeader.tsx";
-import {createTable, deleteTable, getMyTables, getTable, TableCreate, TableView} from "../../api/tables.ts";
+import {
+    createTable,
+    deleteTable,
+    getMyTables,
+    getTable,
+    TableCreateUpdate,
+    TableView,
+    updateTable
+} from "../../api/tables.ts";
 import Title from "../../components/Title/Title.tsx";
 import './__title-container/table-settings-page__title-container.css'
 import './__form/table-settings-page__delete-button.css'
@@ -49,6 +57,8 @@ const TableSettingsPage = () => {
                 />
                 <Button
                     text='Сохранить'
+                    onClick={() => updateTable(tableId, {name: tableName, votingSystem: tableVotingSystem})
+                        .then(() => navigate('/my-tables'))}
                 />
             </div>
             <Button

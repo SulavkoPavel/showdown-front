@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import CommonHeader from "../../components/CommonHeader/CommonHeader.tsx";
-import {getMyTables, TableCreate} from "../../api/tables.ts";
+import {getMyTables, TableCreateUpdate} from "../../api/tables.ts";
 import TableList from "../../components/TableList/TableList.tsx";
 import Title from "../../components/Title/Title.tsx";
 import './__container/confirm-email-info-page__container.css'

@@ -1,17 +1,17 @@
 import './table-list.css'
 import React from 'react';
-import {TableCreate} from '../../api/tables.ts';
+import {TableView} from '../../api/tables.ts';
 import TableComponent from '../Table/TableComponent.tsx';
 
 interface Props {
-    tables: TableCreate[];
+    tables: TableView[];
 }
 
 const TableList = ({tables}: Props) => {
     return (
         <div className='table-list'>
             {
-                tables.map(table =>
+                tables.sort().map(table =>
                     <TableComponent table={table} />
                 )
             }

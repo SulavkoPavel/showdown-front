@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import CommonHeader from "../../components/CommonHeader/CommonHeader.tsx";
-import {createTable, getMyTables, TableCreate} from "../../api/tables.ts";
+import {createTable, getMyTables, TableCreateUpdate} from "../../api/tables.ts";
 import Title from "../../components/Title/Title.tsx";
 import './__title-container/create-table-page__title-container.css'
 import './__form/create-table-page__form.css'

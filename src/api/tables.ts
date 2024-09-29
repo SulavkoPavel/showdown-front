@@ -13,7 +13,7 @@ export interface TableView {
     games: GameView[];
 }
 
-export interface TableCreate {
+export interface TableCreateUpdate {
     name: string;
     votingSystem: string;
 }
@@ -26,8 +26,12 @@ export async function getTable(id: string): Promise<TableView> {
     return (await api.get('/api/tables/' + id)).data;
 }
 
-export async function createTable(table: TableCreate): Promise<TableView> {
+export async function createTable(table: TableCreateUpdate): Promise<TableView> {
     return (await api.post('/api/tables', table)).data;
+}
+
+export async function updateTable(tableId: number, updatedTable: TableCreateUpdate): Promise<TableView> {
+    return (await api.put('/api/tables/' + tableId, updatedTable)).data;
 }
 
 export async function deleteTable(id: string): Promise<void> {

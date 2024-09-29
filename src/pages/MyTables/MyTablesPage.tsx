@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import CommonHeader from "../../components/CommonHeader/CommonHeader.tsx";
-import {getMyTables, TableCreate} from "../../api/tables.ts";
+import {getMyTables, TableCreateUpdate} from "../../api/tables.ts";
 import TableList from "../../components/TableList/TableList.tsx";
 import Title from "../../components/Title/Title.tsx";
 import './__title-container/my-tables-page__title-container.css'
@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 
 const MyTablesPage = () => {
     const navigate = useNavigate();
-    const [tables, setTables] = useState<TableCreate[]>([]);
+    const [tables, setTables] = useState<TableCreateUpdate[]>([]);
 
     useEffect(() => {
         getMyTables().then(tables => setTables(tables));
