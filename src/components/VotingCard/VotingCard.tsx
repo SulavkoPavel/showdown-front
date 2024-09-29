@@ -21,8 +21,10 @@ const VotingCard = ({
     ]);
 
     return (
-        <div className={`voting-card ${stateClassName.get(stateStyle)} ${className}`} onClick={onClick}>
-            {text}
+        <div onClick={onClick}>
+            <div className={`voting-card ${stateClassName.get(stateStyle)} ${className}`}>
+                {text}
+            </div>
         </div>
     )
 }

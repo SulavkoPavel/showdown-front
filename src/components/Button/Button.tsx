@@ -1,4 +1,5 @@
 import './button.css'
+import './button-container.css'
 import './_color/_red/button_color_red.css'
 import './_color/_black/button_color_black.css'
 import './_type/_primary/button_type_primary.css'
@@ -39,14 +40,15 @@ const Button = ({
     ]);
 
     return (
-        <button
-            disabled={disabled}
-            type='button'
-            onClick={onClick}
-            className={`button ${accentClassName.get(styleType)} ${className} ${colorClassName.get(color)}`}
-        >
-            {text}
-        </button>
+        <div className={`button-container ${className} `} onClick={onClick}>
+            <button
+                disabled={disabled}
+                type='button'
+                className={`button ${accentClassName.get(styleType)} ${colorClassName.get(color)}`}
+            >
+                {text}
+            </button>
+        </div>
     )
 }
 

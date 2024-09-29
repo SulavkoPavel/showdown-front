@@ -1,5 +1,4 @@
 .table-settings-page__delete-button {
     margin-top: 35px;
-    display: flex;
-    margin-left: auto;
+    float: right;
 }
