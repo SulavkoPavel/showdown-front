@@ -14,12 +14,14 @@ const TableSettingsPage = () => {
     const navigate = useNavigate();
     const [textFieldStatus, setTextFieldStatus] = useState<TextFieldProps['styleStatus']>('default');
     const [tableName, setTableName] = useState('');
+    const [tableVotingSystem, setTableVotingSystem] = useState('');
     const [table, setTable] = useState<TableView>();
 
     useEffect(() => {
         getTable(tableId).then(table => {
             setTable(table);
             setTableName(table.name)
+            setTableVotingSystem(table.votingSystem)
         });
     }, []);
 
@@ -36,6 +38,14 @@ const TableSettingsPage = () => {
                     value={tableName}
                     onValueChange={setTableName}
                     styleStatus={textFieldStatus}
+                />
+                <TextField
+                    label='Система голосования'
+                    placeholder='1 2 3 5 8 13 20 40 100'
+                    value={tableVotingSystem}
+                    onValueChange={setTableVotingSystem}
+                    styleStatus={textFieldStatus}
+                    mask={/^(\d{1,3}( \d{1,3})* ?|\s*)$/} // todo make a constant
                 />
                 <Button
                     text='Сохранить'

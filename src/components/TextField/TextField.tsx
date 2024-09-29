@@ -14,6 +14,7 @@ export interface TextFieldProps {
     inputType?: 'text' | 'password';
     styleStatus?: 'default' | 'error';
     className?: string;
+    mask?: RegExp; // Добавляем новый пропс для маски
 }
 
 const TextField = ({
@@ -25,9 +26,13 @@ const TextField = ({
                        inputType = 'text',
                        styleStatus = 'default',
                        className = '',
+                       mask, // Добавляем новый пропс для маски
                    }: TextFieldProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onValueChange(event.target.value);
+        const newValue = event.target.value;
+        if (!mask || mask.test(newValue)) {
+            onValueChange(newValue);
+        }
     };
 
     const styleStatusDivClassName: Map<TextFieldProps['styleStatus'], string> = new Map([

@@ -5,7 +5,7 @@ import {User} from "./users.ts";
 export interface TableView {
     id: string;
     name: string;
-    votingSystem: number[];
+    votingSystem: string;
     owner: User;
     isCurrentUserOwner: boolean;
     players: User[];
@@ -15,6 +15,7 @@ export interface TableView {
 
 export interface TableCreate {
     name: string;
+    votingSystem: string;
 }
 
 export async function getMyTables(): Promise<TableView[]> {

@@ -141,7 +141,7 @@ const GamePage = () => {
                     bottomElement={
                         <VotingCardList
                             className='game-page__voting-card-list'
-                            votingSystem={table?.votingSystem}
+                            votingSystem={table?.votingSystem.split(' ')}
                             onSelect={voteValue => createVote(tableId, voteValue)}
                             onUnselect={voteValue => deleteVote(tableId, voteValue)}
                         />

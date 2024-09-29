@@ -12,6 +12,7 @@ const CreateTablePage = () => {
     const navigate = useNavigate();
     const [textFieldStatus, setTextFieldStatus] = useState<TextFieldProps['styleStatus']>('default');
     const [tableName, setTableName] = useState('');
+    const [tableVotingSystem, setTableVotingSystem] = useState('');
 
     return (
         <div className="create-table-page">
@@ -27,9 +28,17 @@ const CreateTablePage = () => {
                     onValueChange={setTableName}
                     styleStatus={textFieldStatus}
                 />
+                <TextField
+                    label='Система голосования'
+                    placeholder='1 2 3 5 8 13 20 40 100'
+                    value={tableVotingSystem}
+                    onValueChange={setTableVotingSystem}
+                    styleStatus={textFieldStatus}
+                    mask={/^(\d{1,3}( \d{1,3})* ?|\s*)$/}
+                />
                 <Button
                     text='Создать'
-                    onClick={() => createTable({name: tableName})
+                    onClick={() => createTable({name: tableName, votingSystem: tableVotingSystem})
                         .then(() => navigate('/my-tables'))
                         .catch(() => setTextFieldStatus('error'))
                     }
