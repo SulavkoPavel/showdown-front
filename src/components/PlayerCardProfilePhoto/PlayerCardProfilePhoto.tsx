@@ -1,7 +1,7 @@
 import './player-card-profile-photo.css';
 import stubHeaderAccountPhoto from '../../assets/Images/stub-header-account-photo.png';
 import React, { useEffect, useState } from 'react';
-import {userProfilePhoto} from "../../api/users.ts";
+import {userProfilePhotoSmall} from "../../api/users.ts";
 
 interface Props {
     userId: number;
@@ -14,7 +14,7 @@ const PlayerCardProfilePhoto = ({ userId, onClick }: Props) => {
     useEffect(() => {
         const fetchPhoto = async () => {
             try {
-                const photoBlob = await userProfilePhoto(userId);
+                const photoBlob = await userProfilePhotoSmall(userId);
                 const photoUrl = URL.createObjectURL(photoBlob);
                 setPhotoUrl(photoUrl);
             } catch (error) {

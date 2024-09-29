@@ -15,16 +15,16 @@ export async function me(): Promise<User> {
     return response.data;
 }
 
-export async function myProfilePhoto(): Promise<Blob> {
-    const response = await api.get<Blob>(`/api/users/my-profile-photo`, {
-        responseType: 'blob', // Указываем, что ожидаем бинарные данные
+export async function myProfilePhotoSmall(): Promise<Blob> {
+    const response = await api.get<Blob>(`/api/users/my-profile-photo/small`, {
+        responseType: 'blob',
     });
     return response.data;
 }
 
-export async function userProfilePhoto(userId: number): Promise<Blob> {
-    const response = await api.get<Blob>(`/api/users/${userId}/profile-photo`, {
-        responseType: 'blob', // Указываем, что ожидаем бинарные данные
+export async function userProfilePhotoSmall(userId: number): Promise<Blob> {
+    const response = await api.get<Blob>(`/api/users/${userId}/profile-photo/small`, {
+        responseType: 'blob'
     });
     return response.data;
 }
