@@ -25,6 +25,8 @@ import Title from "../../components/Title/Title.tsx";
 import {User} from "../../api/users.ts";
 import LoadingPage from "../LoadingPage/LoadingPage.tsx";
 import GameResizableContainer from "../../components/GameResizableContainer/GameResizableContainer.tsx";
+import ReactConfetti from "react-confetti";
+import useWindowDimensions from "../../hooks/useWindowDimensions.ts";
 
 const GamePage = () => {
     const {tableId} = useParams<{ tableId: string }>();
@@ -32,9 +34,11 @@ const GamePage = () => {
     const [activePlayers, setActivePlayers] = useState<User[]>([]);
     const [isShowdown, setIsShowdown] = useState(false);
     const [votingResults, setVotingResults] = useState();
+    const [showConfetti, setShowConfetti] = useState(false);
     const [votedUserIds, setVotedUserIds] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const {width, height} = useWindowDimensions();
 
     useEffect(() => {
         setIsLoading(true);
@@ -48,10 +52,14 @@ const GamePage = () => {
             addOnNewGameHandler(payload => {
                 setIsShowdown(false);
                 setVotedUserIds([]);
+                setShowConfetti(false);
             });
             addOnVotingResultsHandler(payload => {
                 setIsShowdown(true);
                 setVotingResults(JSON.parse(payload.body));
+
+                // Попробовать получить значение шы votingResults
+                setShowConfetti(JSON.parse(payload.body)?.allVotedTheSame);
             });
             addOnVoteHandler(payload => {
                 const voteView = JSON.parse(payload.body);
@@ -80,76 +88,104 @@ const GamePage = () => {
     }, []);
 
     return (
-        <LoadingPage isLoading={isLoading}>
-            <div className="game-page">
-                <CommonHeader
-                    table={table}
+        <>
+            {
+                showConfetti &&
+                <ReactConfetti
+                    wind={0.05}
+                    tweenDuration={7000}
+                    width={width}
+                    height={height}
+                    numberOfPieces={1000}
+                    initialVelocityY={25}
+                    initialVelocityX={25}
+                    gravity={0.1}
+                    confettiSource={{
+                        x: width / 2 - 100,
+                        y: height / 2 - 100,
+                        w: 200,
+                        h: 200,
+                    }}
+                    recycle={false}
+                    colors={['#9CACFF', '#FFEAA1', '#FF9C9C']}
                 />
+            }
+            <LoadingPage isLoading={isLoading}>
+                <div className="game-page">
+                    <CommonHeader
+                        table={table}
+                    />
 
-                <GameResizableContainer
-                    centerElement={
-                        <div
-                            className='game-page__playground'>
-                            <PlayerCardList
-                                className='game-page__top-player-list'
-                                players={activePlayers?.sort().slice(0, 3)}
-                                votedUserIds={votedUserIds}
-                                isCardsRevealed={isShowdown}
-                                votingResults={votingResults}
-                            />
+                    <GameResizableContainer
+                        centerElement={
+                            <div
+                                className='game-page__playground'>
+                                <PlayerCardList
+                                    className='game-page__top-player-list'
+                                    players={activePlayers?.sort().slice(0, 3)}
+                                    votedUserIds={votedUserIds}
+                                    isCardsRevealed={isShowdown}
+                                    votingResults={votingResults}
+                                />
 
-                            {isShowdown ?
-                                <GameTable>
-                                    <div className='game-page__new-game-container'>
-                                        <Title text={votingResults ? votingResults.averageRating : table?.games[0].averageRating}/>
+                                {isShowdown ?
+                                    <GameTable>
+                                        <div className='game-page__new-game-container'>
+                                            <Title
+                                                text={votingResults ? votingResults.averageRating : table?.games[0].averageRating}/>
+                                            {table?.isCurrentUserOwner ?
+                                                <Button
+                                                    text='Новая игра'
+                                                    styleType='secondary'
+                                                    onClick={() => {
+                                                        newGame(tableId);
+                                                    }}
+                                                />
+                                                :
+                                                null
+                                            }
+                                        </div>
+                                    </GameTable>
+                                    :
+                                    <GameTable>
                                         {table?.isCurrentUserOwner ?
                                             <Button
-                                                text='Новая игра'
+                                                text='Раскрыть карты'
                                                 styleType='secondary'
-                                                onClick={() => newGame(tableId)}
+                                                className='game-table__reveal'
+                                                onClick={() => {
+                                                    showdown(tableId);
+                                                }}
                                             />
                                             :
                                             null
                                         }
-                                    </div>
-                                </GameTable>
-                                :
-                                <GameTable>
-                                    {table?.isCurrentUserOwner ?
-                                        <Button
-                                            text='Раскрыть карты'
-                                            styleType='secondary'
-                                            className='game-table__reveal'
-                                            onClick={() => showdown(tableId)}
-                                        />
-                                        :
-                                        null
-                                    }
-                                </GameTable>
-                            }
+                                    </GameTable>
+                                }
 
-                            <PlayerCardList
-                                className='game-page__bottom-player-list'
-                                players={activePlayers?.sort().slice(3, 6)}
-                                votedUserIds={votedUserIds}
-                                isUserPhotoAtBottom={true}
-                                isCardsRevealed={isShowdown}
-                                votingResults={votingResults}
+                                <PlayerCardList
+                                    className='game-page__bottom-player-list'
+                                    players={activePlayers?.sort().slice(3, 6)}
+                                    votedUserIds={votedUserIds}
+                                    isUserPhotoAtBottom={true}
+                                    isCardsRevealed={isShowdown}
+                                    votingResults={votingResults}
+                                />
+                            </div>
+                        }
+                        bottomElement={
+                            <VotingCardList
+                                className='game-page__voting-card-list'
+                                disabled={isShowdown}
+                                votingSystem={table?.votingSystem.split(' ')}
+                                onSelect={voteValue => createVote(tableId, voteValue)}
+                                onUnselect={voteValue => deleteVote(tableId, voteValue)}
                             />
-                        </div>
-                    }
-                    bottomElement={
-                        <VotingCardList
-                            className='game-page__voting-card-list'
-                            disabled={isShowdown}
-                            votingSystem={table?.votingSystem.split(' ')}
-                            onSelect={voteValue => createVote(tableId, voteValue)}
-                            onUnselect={voteValue => deleteVote(tableId, voteValue)}
-                        />
-                    }
-                />
-            </div>
-        </LoadingPage>
+                        }
+                    />
+                </div>
+            </LoadingPage>
+        </>
     );
 }
 

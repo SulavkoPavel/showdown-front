@@ -25,6 +25,7 @@ export interface VotingResult {
 export interface VotingResults {
     votingResults: VotingResult[];
     averageRating: number;
+    allVotedTheSame: boolean;
 }
 
 const onVoteHandlers = [];
