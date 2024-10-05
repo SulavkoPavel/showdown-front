@@ -1,5 +1,16 @@
 .common-header__game-name {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    column-gap: 6px;
+    flex-direction: row;
+
+    cursor: pointer;
+    transition: transform 0.3s, scale 0.3s, background-color 0.15s, color 0.15s ease;
+}
+
+.common-header__game-name:hover {
+    transform:perspective(500px) rotateY(20deg);
+}
+
+.common-header__game-name:active {
+    transform: scale(0.85) perspective(500px) rotateY(180deg);
 }

@@ -4,5 +4,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
 }

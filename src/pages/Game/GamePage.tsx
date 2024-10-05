@@ -83,7 +83,7 @@ const GamePage = () => {
         <LoadingPage isLoading={isLoading}>
             <div className="game-page">
                 <CommonHeader
-                    gameName={table?.name}
+                    table={table}
                 />
 
                 <GameResizableContainer
