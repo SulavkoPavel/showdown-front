@@ -19,7 +19,6 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/confirm-email-info" element={<ConfirmEmailInfoPage />} />
                 <Route path="/confirm-email" element={<ConfirmEmailPage />} />
-                <Route path="/profile-settings" element={<ProfileSettingsPage />} />
                 <Route path="/my-tables" element={<MyTablesPage />} />
                 <Route path="/create-table" element={<CreateTablePage />} />
                 <Route path="/tables/:tableId/settings" element={<TableSettingsPage />} />
