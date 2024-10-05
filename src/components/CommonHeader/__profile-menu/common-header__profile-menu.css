@@ -1,5 +1,6 @@
 .common-header__profile-menu {
     position: absolute;
+    z-index: 9999;
     top: 72px;
     right: 0;
 }
