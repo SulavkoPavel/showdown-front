@@ -6,6 +6,7 @@ import {addOnNewGameHandler, addOnVotingResultsHandler, connectToWs} from "../..
 
 interface Props {
     votingSystem?: number[];
+    disabled?: boolean;
     onSelect: (voteValue: number) => void;
     onUnselect: (voteValue: number) => void;
     className?: string;
@@ -13,6 +14,7 @@ interface Props {
 
 const VotingCardList = ({
                             votingSystem,
+                            disabled = false,
                             onSelect,
                             onUnselect,
                             className = ''
@@ -32,6 +34,11 @@ const VotingCardList = ({
                     text={voteNumber.toString()}
                     stateStyle={index === selectedIndex ? "selected" : "unselected"}
                     onClick={() => {
+                        if (disabled) {
+                            setSelectedIndex(-1);
+                            return;
+                        }
+
                         if (selectedIndex === index) {
                             setSelectedIndex(-1);
                             onUnselect(voteNumber);
