@@ -1,7 +1,7 @@
 import './header-profile-photo.css';
 import stubHeaderAccountPhoto from '../../assets/Images/stub-header-account-photo.png';
-import React, { useEffect, useState } from 'react';
-import {myProfilePhotoSmall} from "../../api/users.ts";
+import React, {useEffect, useState} from 'react';
+import {myProfilePhotoMedium} from "../../api/users.ts";
 
 interface Props {
     onClick?: () => void;
@@ -13,7 +13,7 @@ const HeaderProfilePhoto = ({ onClick }: Props) => {
     useEffect(() => {
         const fetchPhoto = async () => {
             try {
-                const photoBlob = await myProfilePhotoSmall();
+                const photoBlob = await myProfilePhotoMedium();
                 const photoUrl = URL.createObjectURL(photoBlob);
                 setPhotoUrl(photoUrl);
             } catch (error) {

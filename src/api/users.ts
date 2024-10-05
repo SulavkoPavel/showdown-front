@@ -22,6 +22,13 @@ export async function myProfilePhotoSmall(): Promise<Blob> {
     return response.data;
 }
 
+export async function myProfilePhotoMedium(): Promise<Blob> {
+    const response = await api.get<Blob>(`/api/users/my-profile-photo/medium`, {
+        responseType: 'blob',
+    });
+    return response.data;
+}
+
 export async function userProfilePhotoSmall(userId: number): Promise<Blob> {
     const response = await api.get<Blob>(`/api/users/${userId}/profile-photo/small`, {
         responseType: 'blob'
