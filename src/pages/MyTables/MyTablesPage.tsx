@@ -12,7 +12,12 @@ const MyTablesPage = () => {
     const [tables, setTables] = useState<TableCreateUpdate[]>([]);
 
     useEffect(() => {
-        getMyTables().then(tables => setTables(tables));
+        getMyTables().then(tables => {
+            setTables(tables);
+            if (tables.length == 0) {
+                navigate('/create-table');
+            }
+        });
     }, []);
 
     return (
