@@ -1,6 +1,5 @@
 import {Client, IMessage, StompConfig} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import {getAccessTokenFromLocalStorage} from "./auth.ts";
 import {TableView} from "./tables.ts";
 
 let stompClient: Client;
@@ -37,9 +36,6 @@ const onPlayerActivitiesHandlers = [];
 export function connectToWs(tableId: string) {
     const stompConfig: StompConfig = {
         webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_API_HOST + "/ws"),
-        beforeConnect: function () {
-            this.connectHeaders = {Authorization: "Bearer " + getAccessTokenFromLocalStorage()};
-        },
         onConnect: () => {
             stompClient.subscribe("/user/queue/" + tableId + "/votes", (payload) => {
                 console.log(payload);
