@@ -1,6 +1,6 @@
 import './player-card-profile-photo.css';
 import stubHeaderAccountPhoto from '../../assets/Images/stub-header-account-photo.png';
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {userProfilePhotoSmall} from "../../api/users.ts";
 
 interface Props {

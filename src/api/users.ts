@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import api from "./api.ts";
 
 export const API_USERS_ME = '/api/users/me';

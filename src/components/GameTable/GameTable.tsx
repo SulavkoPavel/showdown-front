@@ -8,7 +8,6 @@ interface Props {
 
 const GameTable = ({
                         children,
-                        className = ''
                     }: Props) => {
     return (
         <div className='game-table'>

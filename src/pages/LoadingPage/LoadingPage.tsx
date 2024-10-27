@@ -1,16 +1,15 @@
-import React from 'react'
 import './loading-page.css'
 import './__content/loading-page__content.css'
 import LoadingCard from "../../components/LoadingCard/LoadingCard.tsx";
 
 interface Props {
     isLoading: boolean;
-    children: string;
+    children: JSX.Element|JSX.Element[];
 }
 
 const LoadingPage = ({
                          isLoading = true,
-                         children = ''
+                         children
                      }: Props) => {
     return (
         <div className="loading-page">

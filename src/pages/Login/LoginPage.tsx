@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './login-page.css'
 import './__form/login-page__form.css'
 import './__container/login-page__container.css'

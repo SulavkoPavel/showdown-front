@@ -1,8 +1,6 @@
 import './player-card-list.css'
-import React, {useEffect, useState} from 'react';
 import PlayerCard from "../PlayerCard/PlayerCard.tsx";
-import {getTable} from "../../api/tables.ts";
-import {addOnNewGameHandler, addOnVoteHandler, connectToWs, VotingResults} from "../../api/game.ts";
+import {VotingResults} from "../../api/game.ts";
 import {User} from "../../api/users.ts";
 
 interface Props {
@@ -18,18 +16,22 @@ const PlayerCardList = ({
                             players,
                             isUserPhotoAtBottom = false,
                             isCardsRevealed = false,
-                            votingResults,
+                            votingResults = {
+                                votingResults: [],
+                                averageRating: 0,
+                                allVotedTheSame: false
+                            },
                             votedUserIds,
                             className
                         }: Props) => {
     return (
         <div className={`player-card-list ${className}`}>
             {players?.map(player => {
-                const votingResult = votingResults?.votingResults.find(result => result.userId === player.id);
+                const votingResult = votingResults?.votingResults.find(voting => voting.userId === player.id);
 
                 return (
                     <PlayerCard
-                        text={votingResult?.rating}
+                        text={votingResult?.rating.toString()}
                         player={player}
                         stateStyle={isCardsRevealed ? 'revealed' : (votedUserIds?.includes(player.id) ? 'voted' : 'unvoted')}
                         isUserPhotoAtBottom={isUserPhotoAtBottom}
