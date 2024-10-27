@@ -1,14 +1,12 @@
 import LoginPage from "./pages/Login/LoginPage.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
-import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 import MyTablesPage from "./pages/MyTables/MyTablesPage.tsx";
 import CreateTablePage from "./pages/CreateTable/CreateTablePage.tsx";
 import TableSettingsPage from "./pages/TableSettings/TableSettingsPage.tsx";
-import ProfileSettingsPage from "./pages/ProfileSettings/ProfileSettingsPage.tsx";
 import GamePage from "./pages/Game/GamePage.tsx";
 import ConfirmEmailInfoPage from "./pages/ConfirmEmailInfo/ConfirmEmailInfoPage.tsx";
 import ConfirmEmailPage from "./pages/ConfirmEmail/ConfirmEmailPage.tsx";
-import LoadingPage from "./pages/LoadingPage/LoadingPage.tsx";
 
 function App() {
     return (
@@ -23,7 +21,6 @@ function App() {
                 <Route path="/create-table" element={<CreateTablePage />} />
                 <Route path="/tables/:tableId/settings" element={<TableSettingsPage />} />
                 <Route path="/:tableId" element={<GamePage   />} />
-                <Route path="/loading" element={<LoadingPage   />} />
             </Routes>
         </Router>
     );

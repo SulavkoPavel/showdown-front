@@ -4,12 +4,11 @@ import './player-card-container_reversed.css'
 import './_state/_voted/player-card_state_voted.css'
 import './_state/_unvoted/player-card_state_unvoted.css'
 import './_state/_revealed/player-card_state_revealed.css'
-import HeaderProfilePhoto from "../HeaderProfilePhoto/HeaderProfilePhoto.tsx";
 import PlayerCardProfilePhoto from "../PlayerCardProfilePhoto/PlayerCardProfilePhoto.tsx";
 import {User} from "../../api/users.ts";
 
 interface Props {
-    text: string;
+    text?: string;
     player: User;
     stateStyle?: 'voted' | 'unvoted' | 'revealed';
     isUserPhotoAtBottom?: boolean;

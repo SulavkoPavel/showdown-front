@@ -1,5 +1,4 @@
 import './table-list.css'
-import React from 'react';
 import {TableView} from '../../api/tables.ts';
 import TableComponent from '../Table/TableComponent.tsx';
 

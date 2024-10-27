@@ -1,5 +1,4 @@
 import './table.css'
-import React, {useState} from 'react';
 import {TableView} from '../../api/tables.ts';
 import TablePlayerPhotoList from '../TableAccountPhotoList/TablePlayerPhotoList.tsx';
 import TableName from '../TableName/TableName.tsx';
@@ -14,14 +13,9 @@ interface Props {
 
 const TableComponent = ({table}: Props) => {
     const navigate = useNavigate();
-    const [showMenuButtons, setShowMenuButtons] = useState(false);
 
     return (
-        <div
-            className='table'
-            onMouseOver={() => setShowMenuButtons(true)}
-            onMouseLeave={() => setShowMenuButtons(false)}
-        >
+        <div className='table'>
             <div className='table__menu-buttons'>
                 <Button
                     text='Играть'

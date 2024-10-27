@@ -5,14 +5,14 @@ import '../SmallText/small-text.css'
 import './__profile-menu/common-header__profile-menu.css'
 import '../../main-container.css'
 import TextLogo from '../TextLogo/TextLogo.tsx';
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import HeaderProfilePhoto from "../HeaderProfilePhoto/HeaderProfilePhoto.tsx";
 import ProfileMenu from "../ProfileMenu/ProfileMenu.tsx";
 import linkIcon from '../../assets/Icons/link.svg';
 import {TableView} from "../../api/tables.ts";
 
 interface Props {
-    table: TableView
+    table?: TableView
 }
 
 const CommonHeader = ({table}: Props) => {

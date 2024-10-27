@@ -11,11 +11,6 @@ export interface GameView {
     showdown: boolean;
 }
 
-
-interface CreateVote {
-    rating: string;
-}
-
 export interface VotingResult {
     userId: number;
     rating: number;
@@ -27,10 +22,10 @@ export interface VotingResults {
     allVotedTheSame: boolean;
 }
 
-const onVoteHandlers = [];
-const onGameHandlers = [];
-const onVotingResultsHandlers = [];
-const onPlayerActivitiesHandlers = [];
+const onVoteHandlers: Array<(payload: IMessage) => void> = [];
+const onGameHandlers: Array<(payload: IMessage) => void> = [];
+const onVotingResultsHandlers: Array<(payload: IMessage) => void> = [];
+const onPlayerActivitiesHandlers: Array<(payload: IMessage) => void> = [];
 
 
 export function connectToWs(tableId: string) {
@@ -66,11 +61,11 @@ export function connectToWs(tableId: string) {
     stompClient.activate();
 }
 
-export function createVote(tableId: number, rating: number) {
+export function createVote(tableId: string, rating: number) {
     stompClient.publish({destination: `/app/table-votes/${tableId}/create`, body: JSON.stringify({rating: rating}) });
 }
 
-export function deleteVote(tableId: number, rating: number) {
+export function deleteVote(tableId: string, rating: number) {
     stompClient.publish({destination: `/app/table-votes/${tableId}/delete`, body: JSON.stringify({rating: rating}) });
 }
 
@@ -78,11 +73,11 @@ export function addOnVoteHandler(handler: (payload: IMessage) => void) {
     onVoteHandlers.push(handler);
 }
 
-export function newGame(tableId: number) {
+export function newGame(tableId: string) {
     stompClient.publish({destination: `/app/tables/${tableId}/create-game`});
 }
 
-export function activeAtTable(tableId: number) {
+export function activeAtTable(tableId: string) {
     stompClient.publish({destination: `/app/tables/${tableId}/active`});
 }
 
@@ -98,6 +93,6 @@ export function addOnPlayerActivityHandler(handler: (payload: IMessage) => void)
     onPlayerActivitiesHandlers.push(handler);
 }
 
-export function showdown(tableId: number) {
+export function showdown(tableId: string) {
     stompClient.publish({destination: `/app/tables/${tableId}/showdown`});
 }

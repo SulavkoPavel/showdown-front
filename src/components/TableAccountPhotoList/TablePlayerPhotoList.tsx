@@ -1,6 +1,4 @@
 import './table-player-photo-list.css'
-import stubTableAccountPhoto from '../../assets/Images/stub-table-account-photo.png'
-import React from 'react';
 import TableStubPlayerPhoto from '../TableStubPlayerPhoto/TableStubPlayerPhoto.tsx';
 import TablePlayerProfilePhoto from "../TablePlayerProfilePhoto/TablePlayerProfilePhoto.tsx";
 import {User} from "../../api/users.ts";

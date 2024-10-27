@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './register-page.css'
 import './__form/register-page__form.css'
 import './__container/register-page__container.css'
@@ -27,10 +27,6 @@ const stepTitles: { [key in Steps]: string } = {
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-
-    const emailRef = useRef<HTMLInputElement>();
-    const passwordRef = useRef<HTMLInputElement>();
-    const nicknameRef = useRef<HTMLInputElement>();
 
     const [step, setStep] = useState<Steps>(Steps.EMAIL);
     const [nickname, setNickname] = useState('');
@@ -67,8 +63,7 @@ const RegisterPage = () => {
                         setRegisterButtonDisabled(true);
                         return;
                     }
-                    const emailResult = await userWithEmailExists(email);
-                    if (!emailResult.exists) {
+                    if (!(await userWithEmailExists(email)).exists) {
                         setStep(Steps.PASSWORD);
                     } else {
                         setTextFieldStatus('error');
@@ -79,8 +74,7 @@ const RegisterPage = () => {
                     setStep(Steps.NICKNAME);
                     break;
                 case Steps.NICKNAME:
-                    const nicknameResult = await userWithNicknameExists(nickname);
-                    if (!nicknameResult.exists) {
+                    if (!(await userWithNicknameExists(nickname)).exists) {
                         handleSubmit();
                     } else {
                         setTextFieldStatus('error');
@@ -155,7 +149,7 @@ const RegisterPage = () => {
                                 value={nickname}
                                 onValueChange={(value) => {
                                     setNickname(value);
-                                    resetTextFieldStatus(); // Сброс статуса при изменении значения
+                                    resetTextFieldStatus();
                                 }}
                                 styleStatus={textFieldStatus}
                                 placeholder='Roman'

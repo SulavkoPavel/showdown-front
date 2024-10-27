@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import CommonHeader from "../../components/CommonHeader/CommonHeader.tsx";
 import {useParams} from "react-router-dom";
 import {getTable, TableView} from "../../api/tables.ts";
 import VotingCardList from "../../components/VotingCardList/VotingCardList.tsx";
 import {
     addOnNewGameHandler,
+    addOnPlayerActivityHandler,
+    addOnVoteHandler,
     addOnVotingResultsHandler,
-    connectToWs, newGame,
+    connectToWs,
     createVote,
     deleteVote,
-    showdown, addOnVoteHandler, activeAtTable, addOnPlayerActivityHandler
+    newGame,
+    showdown, VotingResults
 } from "../../api/game.ts";
 import GameTable from "../../components/GameTable/GameTable.tsx";
 import Button from "../../components/Button/Button.tsx";
@@ -33,23 +36,23 @@ const GamePage = () => {
     const [table, setTable] = useState<TableView>();
     const [activePlayers, setActivePlayers] = useState<User[]>([]);
     const [isShowdown, setIsShowdown] = useState(false);
-    const [votingResults, setVotingResults] = useState();
+    const [votingResults, setVotingResults] = useState<VotingResults>();
     const [showConfetti, setShowConfetti] = useState(false);
     const [votedUserIds, setVotedUserIds] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-
     const {width, height} = useWindowDimensions();
 
     useEffect(() => {
         setIsLoading(true);
-        getTable(tableId).then(table => {
+        getTable(tableId!).then(table => {
             setIsLoading(false);
             setTable(table);
             setActivePlayers(table.activePlayers)
             setIsShowdown(table.games[0].showdown);
             table.players.sort((a, b) => a.id - b.id);
-            connectToWs(tableId);
-            addOnNewGameHandler(payload => {
+            connectToWs(tableId!);
+
+            addOnNewGameHandler(() => {
                 setIsShowdown(false);
                 setVotedUserIds([]);
                 setShowConfetti(false);
@@ -57,8 +60,6 @@ const GamePage = () => {
             addOnVotingResultsHandler(payload => {
                 setIsShowdown(true);
                 setVotingResults(JSON.parse(payload.body));
-
-                // Попробовать получить значение шы votingResults
                 setShowConfetti(JSON.parse(payload.body)?.allVotedTheSame);
             });
             addOnVoteHandler(payload => {
@@ -132,13 +133,14 @@ const GamePage = () => {
                                     <GameTable>
                                         <div className='game-page__new-game-container'>
                                             <Title
-                                                text={votingResults ? votingResults.averageRating : table?.games[0].averageRating}/>
+                                                text={votingResults ? votingResults.averageRating.toString() : table?.games[0]?.averageRating.toString()}
+                                            />
                                             {table?.isCurrentUserOwner ?
                                                 <Button
                                                     text='Новая игра'
                                                     styleType='secondary'
                                                     onClick={() => {
-                                                        newGame(tableId);
+                                                        newGame(tableId!);
                                                     }}
                                                 />
                                                 :
@@ -154,7 +156,7 @@ const GamePage = () => {
                                                 styleType='secondary'
                                                 className='game-table__reveal'
                                                 onClick={() => {
-                                                    showdown(tableId);
+                                                    showdown(tableId!);
                                                 }}
                                             />
                                             :
@@ -177,9 +179,9 @@ const GamePage = () => {
                             <VotingCardList
                                 className='game-page__voting-card-list'
                                 disabled={isShowdown}
-                                votingSystem={table?.votingSystem.split(' ')}
-                                onSelect={voteValue => createVote(tableId, voteValue)}
-                                onUnselect={voteValue => deleteVote(tableId, voteValue)}
+                                votingSystem={table?.votingSystem ? table.votingSystem.split(' ').map(Number) : []}
+                                onSelect={voteValue => createVote(tableId!, voteValue)}
+                                onUnselect={voteValue => deleteVote(tableId!, voteValue)}
                             />
                         }
                     />

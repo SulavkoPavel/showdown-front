@@ -1,8 +1,7 @@
 import './voting-card-list.css'
 import VotingCard from "../VotingCard/VotingCard.tsx";
 import {useEffect, useState} from "react";
-import {getTable} from "../../api/tables.ts";
-import {addOnNewGameHandler, addOnVotingResultsHandler, connectToWs} from "../../api/game.ts";
+import {addOnVotingResultsHandler} from "../../api/game.ts";
 
 interface Props {
     votingSystem?: number[];
@@ -22,7 +21,7 @@ const VotingCardList = ({
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
     useEffect(() => {
-        addOnVotingResultsHandler(payload => {
+        addOnVotingResultsHandler(() => {
             setSelectedIndex(-1);
         });
     }, []);
