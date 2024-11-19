@@ -35,7 +35,6 @@ jobs:
           docker stop frontend-container || true
           docker rm frontend-container || true
 
-
           # Собираем Docker образ
           docker build -t frontend-app .
 
