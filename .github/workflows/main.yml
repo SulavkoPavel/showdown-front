@@ -2,45 +2,51 @@ name: Deploy Frontend
 
 on:
   push:
-    branches:
-      - main  # Запуск при пуше в ветку main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонируем репозиторий на сервер
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Устанавливаем sshpass для работы с паролем
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      # 3. Деплой на сервер
       - name: Deploy Frontend to Server
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          # Подключаемся к серверу через sshpass
           sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
-          # Клонируем репозиторий на сервер (если он ещё не клонирован)
-          git clone https://github.com/your-username/your-repository.git || cd your-repository && git pull
+          # Создаем директорию для приложения
+          mkdir -p ~/frontend-app && cd ~/frontend-app
+          echo  ${GIT_TOKEN}
+          echo ${GIT_USERNAME}
+          # Загружаем репозиторий
+          if [ -d "showdown-front" ]; then
+              cd showdown-front && git pull || exit 1
+          else
+              git clone https://${GIT_USERNAME}:${GIT_TOKEN}@github.com/SulavkoPavel/showdown-front.git showdown-front || exit 1
+              cd showdown-front
+          fi
 
-          # Перейдем в каталог приложения
-          cd your-repository
+          # Собираем Docker образ
+          if [ -f Dockerfile ]; then
+              docker build -t frontend-app -f Dockerfile .
+          else
+              echo "Dockerfile не найден!"
+              exit 1
+          fi
 
-          # Останавливаем старый контейнер (если существует)
+          # Удаляем старый контейнер
           docker stop frontend-container || true
           docker rm frontend-container || true
 
-          # Собираем Docker-образ
-          docker build -t frontend-app .
-
-          # Запускаем контейнер
+          # Запускаем новый контейнер
           docker run -d -p 81:3000 --name frontend-container frontend-app
           EOF
-
