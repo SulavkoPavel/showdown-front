@@ -1,0 +1,43 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main  # Запуск при пуше в ветку main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Клонируем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Устанавливаем sshpass для работы с паролем
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      # 3. Деплой на сервер
+      - name: Deploy Frontend to Server
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          # Подключаемся к серверу через sshpass
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+          # Создаём директорию для приложения (если нет)
+          mkdir -p ~/frontend-app
+          cd ~/frontend-app
+
+          # Останавливаем старый контейнер (если он существует)
+          docker stop frontend-container || true
+          docker rm frontend-container || true
+
+          # Собираем Docker образ
+          docker build -t frontend-app .
+
+          # Запускаем контейнер
+          docker run -d -p 81:3000 --name frontend-container frontend-app
+          EOF
