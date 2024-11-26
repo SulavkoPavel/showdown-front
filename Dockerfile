@@ -28,8 +28,8 @@ COPY --from=build /app/dist ./dist
 # Устанавливаем serve для раздачи статических файлов
 RUN npm install -g serve
 
-# Команда запуска
-CMD ["serve", "-s", "dist", "-l", "8081"]
+# Команда запуска (слушаем 0.0.0.0)
+CMD ["serve", "-s", "dist", "-l", "8081", "-n"]
 
 # Открываем порт 8081 для HTTP
 EXPOSE 8081
