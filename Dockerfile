@@ -29,7 +29,7 @@ COPY --from=build /app/dist ./dist
 RUN npm install -g serve
 
 # Команда запуска (слушаем 0.0.0.0)
-CMD ["serve", "-s", "dist", "-l", "8081", "-n"]
+CMD ["serve", "-s", "dist", "-l", "0.0.0.0:8081", "-n"]
 
 # Открываем порт 8081 для HTTP
 EXPOSE 8081
