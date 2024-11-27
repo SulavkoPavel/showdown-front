@@ -25,11 +25,11 @@ WORKDIR /app
 # Копируем только собранные файлы
 COPY --from=build /app/dist ./dist
 
-# Устанавливаем serve для раздачи статических файлов
-RUN npm install -g serve
+# Устанавливаем http-server для раздачи статических файлов
+RUN npm install -g http-server
 
 # Команда запуска (слушаем 0.0.0.0)
-CMD ["npx", "serve", "-s", "dist", "-l", "8081", "-n", "--listen", "0.0.0.0"]
+CMD ["http-server", "dist", "-p", "8081", "-a", "0.0.0.0"]
 
 # Открываем порт 8081 для HTTP
 EXPOSE 8081
