@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,6 +47,6 @@ jobs:
           docker stop frontend-container || true
           docker rm frontend-container || true
 
-          # Запускаем новый контейнер
-          docker run -d -p 81:3000 --name frontend-container frontend-app
+          # Запускаем новый контейнер с сетью хоста
+          docker run -d --network host --name frontend-container frontend-app
           EOF
